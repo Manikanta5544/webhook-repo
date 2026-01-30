@@ -1,11 +1,8 @@
 from pymongo import MongoClient, ASCENDING, DESCENDING
 from config import MONGO_URI, DB_NAME, EVENTS_COLLECTION
 
-# Connect to MongoDB
+# Connect to MongoDB (NO ping at import time)
 client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
-
-# Fail if DB is unreachable
-client.admin.command("ping")
 
 db = client[DB_NAME]
 events_collection = db[EVENTS_COLLECTION]

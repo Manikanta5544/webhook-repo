@@ -143,3 +143,23 @@ http://localhost:5000
 ## Related Repository
 
 * [**action-repo**](https://github.com/Manikanta5544/action-repo) – used to trigger GitHub events (push, PR, merge)
+
+## Submission Notes
+
+This assignment was implemented strictly according to the requirements outlined in the provided PDF.
+
+### Key points of the submission:
+
+* GitHub Webhooks are used (not GitHub Actions) to receive real events from a separate action-repo.
+* The backend processes push, pull request, and merge events, storing only the required fields.
+* MongoDB is used with a unique index on request_id to prevent duplicate records.
+* The /events endpoint returns only recent events within a defined time window to support polling.
+* The UI polls the backend every 15 seconds and renders events in the exact text format specified in the assignment.
+* All timestamps are handled in UTC and stored as ISO dates in MongoDB.
+* The project is structured with clear separation of concerns (routes, services, database, UI).
+
+**The system was tested end-to-end using real GitHub webhook deliveries, including:**
+
+* Push events
+* Pull request creation
+* Pull request merge 

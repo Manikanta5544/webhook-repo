@@ -7,9 +7,11 @@ def parse_github_event(event_type: str, payload: dict):
     try:
         # PUSH
         if event_type == "push":
-            commit = payload.get("head_commit")
-            if not commit:
+            commits = payload.get("commits", [])
+            if not commits:
                 return None
+
+            commit = commits[-1]  # last commit in push
 
             return {
                 "request_id": commit["id"],
@@ -29,7 +31,7 @@ def parse_github_event(event_type: str, payload: dict):
             # MERGE 
             if payload.get("action") == "closed" and pr.get("merged") is True:
                 return {
-                    "request_id": str(pr["id"]),
+                    "request_id": str(pr["id"]) + "_merged",
                     "author": pr["merged_by"]["login"],
                     "action": "MERGE",
                     "from_branch": pr["head"]["ref"],
@@ -50,5 +52,7 @@ def parse_github_event(event_type: str, payload: dict):
 
     except KeyError as e:
         print(f"Parser error: missing field {e}")
+    except Exception as e:
+        print(f"Parser error: {e}")
 
     return None

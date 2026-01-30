@@ -10,7 +10,13 @@ app = Flask(__name__, static_folder="ui", static_url_path="")
 app.register_blueprint(webhook_bp)
 app.register_blueprint(events_bp)
 
-@app.route("/")
+# Fast health check for Replit publish
+@app.route("/", methods=["GET"])
+def root():
+    return "OK", 200
+
+# UI endpoint
+@app.route("/ui", methods=["GET"])
 def index():
     return app.send_static_file("index.html")
 
