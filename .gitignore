@@ -1,0 +1,11 @@
+#ENV
+.env 
+.env.local
+
+#Flask
+__pycache__/
+*.pyc
+*.pyo
+.Python
+venv/
+env/
